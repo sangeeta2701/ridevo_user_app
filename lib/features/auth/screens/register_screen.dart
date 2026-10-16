@@ -1,12 +1,16 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ridevo_user_app/constants/app_color.dart';
 import 'package:ridevo_user_app/constants/app_text_styles.dart';
 import 'package:ridevo_user_app/constants/sized_box.dart';
+import 'package:ridevo_user_app/features/auth/screens/main_screen.dart';
 import 'package:ridevo_user_app/features/auth/widgets/custom_text_form_field.dart';
 import 'package:ridevo_user_app/features/auth/widgets/theme_button.dart';
+import 'package:ridevo_user_app/global/global.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -27,6 +31,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _confirmPasswordVisible = false;
   final _formKey = GlobalKey<FormState>();
   String countryCode = "+91";
+
+  void _submit()async{
+    //validate
+    if(_formKey.currentState!.validate()){
+      await firebaseAuth.createUserWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim()).then((auth)async{
+        currentUser = auth.user;
+        if(currentUser != null){
+          Map userMap = {
+            "id": currentUser!.uid,
+            "name": nameController.text.trim(),
+            "email": emailController.text.trim(),
+            "phone": phoneController.text.trim(),
+            "address": addressController.text.trim(),
+          };
+          DatabaseReference userRef = FirebaseDatabase.instance.ref().child('users');
+          userRef.child(currentUser!.uid).set(userMap);
+        }
+        await Fluttertoast.showToast(msg: "Successfully Registered");
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreen()));
+      }).catchError((errorMessage){
+        Fluttertoast.showToast(msg: "Error Occured: \n $errorMessage");
+      });
+    }
+    else{
+      Fluttertoast.showToast(msg: "Not all fields are valid");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +302,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         primaryColor: primaryColor,
                         buttonText: "Register",
                         onpress: () {
-                          if (_formKey.currentState!.validate()) {}
+                          _submit();
                         },
                       ),
                       height20,
