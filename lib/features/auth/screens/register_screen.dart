@@ -1,9 +1,9 @@
-
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ridevo_user_app/constants/app_color.dart';
+import 'package:ridevo_user_app/constants/app_text_styles.dart';
 import 'package:ridevo_user_app/constants/sized_box.dart';
 import 'package:ridevo_user_app/features/auth/widgets/custom_text_form_field.dart';
 import 'package:ridevo_user_app/features/auth/widgets/theme_button.dart';
@@ -44,7 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Stack(
                 children: [
                   Container(
-                    height: 220.h,
+                    height: 210.h,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(40.r),
@@ -62,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   // Subtle dark gradient blend overlay
                   Container(
-                    height: 220.h,
+                    height: 210.h,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(40.r),
@@ -87,20 +87,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: [
                         Text(
                           "Create Account",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 0.5,
-                          ),
+
+                          style: AppTextStyles.mainHeading(
+                            context,
+                          ).copyWith(fontSize: 25.sp),
                         ),
-                        SizedBox(height: 4.h),
+                        height4,
                         Text(
                           "Sign up to get started with Ridevo",
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 12.sp,
-                          ),
+                          style: AppTextStyles.whiteContentStyle(
+                            context,
+                          ).copyWith(fontSize: 12.sp),
                         ),
                       ],
                     ),
@@ -119,9 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: nameController,
                         hintText: "Full Name",
                         prefixIcon: const Icon(Icons.person_outline),
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(30),
-                        ],
+                        inputFormatters: [LengthLimitingTextInputFormatter(30)],
                         validator: (text) {
                           if (text == null || text.isEmpty) {
                             return "Name can't be empty";
@@ -272,12 +267,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height24,
 
                       // 3. Full-width Modern CTA Button
-                      ThemeButton(primaryColor: primaryColor,  buttonText:"Register",onpress: (){
-                        if (_formKey.currentState!.validate()) {
-            
-          }
-                      }),
+                      ThemeButton(
+                        primaryColor: primaryColor,
+                        buttonText: "Register",
+                        onpress: () {
+                          if (_formKey.currentState!.validate()) {}
+                        },
+                      ),
                       height20,
+                      TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.all(1.w),
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: Text(
+                          "Forgot Password ?",
+                          style: AppTextStyles.forgotPasswrodTextStyle(
+                            context,
+                          ).copyWith(fontSize: 12.sp),
+                        ),
+                      ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Already have an account ?",
+                            style: AppTextStyles.forgotPasswrodTextStyle(
+                              context,
+                            ).copyWith(fontSize: 12.sp),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              "SignIn",
+                              style: AppTextStyles.textButtonTextStyle(
+                                context,
+                              ).copyWith(fontSize: 14.sp),
+                            ),
+                          ),
+                        ],
+                      ),
+                      height60,
                     ],
                   ),
                 ),
@@ -289,4 +323,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
-
