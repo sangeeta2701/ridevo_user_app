@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ridevo_user_app/constants/app_color.dart';
 import 'package:ridevo_user_app/constants/app_text_styles.dart';
 import 'package:ridevo_user_app/constants/sized_box.dart';
+import 'package:ridevo_user_app/features/auth/screens/login_screen.dart';
 import 'package:ridevo_user_app/features/auth/screens/main_screen.dart';
 import 'package:ridevo_user_app/features/auth/widgets/custom_text_form_field.dart';
 import 'package:ridevo_user_app/features/auth/widgets/theme_button.dart';
@@ -332,7 +333,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ).copyWith(fontSize: 12.sp),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                            },
                             child: Text(
                               "SignIn",
                               style: AppTextStyles.textButtonTextStyle(
