@@ -11,7 +11,7 @@ class AppTextStyles {
       fontWeight: FontWeight.bold,
       color: darkTheme
           ? whiteColor
-          : whiteColor,
+          : blackColor,
       letterSpacing: 0.5
     );
   }
