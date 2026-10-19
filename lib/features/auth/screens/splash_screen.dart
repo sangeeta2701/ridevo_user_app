@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ridevo_user_app/assistant/assistant_method.dart';
 import 'package:ridevo_user_app/constants/app_color.dart';
 import 'package:ridevo_user_app/constants/app_text_styles.dart';
 import 'package:ridevo_user_app/constants/sized_box.dart';
 import 'package:ridevo_user_app/features/auth/screens/login_screen.dart';
+import 'package:ridevo_user_app/features/auth/screens/main_screen.dart';
+import 'package:ridevo_user_app/global/global.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,6 +26,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
+    // 1. Entrance Animations
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
@@ -42,9 +46,34 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    Timer(const Duration(seconds: 3), () {
-      if (mounted) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+    // 2. Start Dynamic Route Resolution Timer
+    setTimer();
+  }
+
+  // Dynamic Auth Route Resolver
+  void setTimer() {
+    Timer(const Duration(seconds: 3), () async {
+      if (!mounted) return;
+
+      final currentUser = firebaseAuth.currentUser;
+
+      if (currentUser != null) {
+        // Fetch current online info before landing on MainScreen
+        AssistantMethod.readCurrentUserOnlineInfo();
+
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const MainScreen()),
+          );
+        }
+      } else {
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+          );
+        }
       }
     });
   }
