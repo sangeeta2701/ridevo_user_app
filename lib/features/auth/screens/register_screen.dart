@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ridevo_user_app/constants/app_color.dart';
 import 'package:ridevo_user_app/constants/app_text_styles.dart';
 import 'package:ridevo_user_app/constants/sized_box.dart';
+import 'package:ridevo_user_app/features/auth/screens/forget_password_screen.dart';
 import 'package:ridevo_user_app/features/auth/screens/login_screen.dart';
 import 'package:ridevo_user_app/features/auth/screens/main_screen.dart';
 import 'package:ridevo_user_app/features/auth/widgets/custom_text_form_field.dart';
@@ -137,7 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
 
-              // 2. Form Body
+              // Form Body
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
                 child: Form(
@@ -298,7 +299,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       height24,
 
-                      // 3. Full-width Modern CTA Button
+                      // Full-width Modern CTA Button
                       ThemeButton(
                         primaryColor: primaryColor,
                         buttonText: "Register",
@@ -308,7 +309,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       height20,
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgetPasswordScreen()));
+                        },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.all(1.w),
                           minimumSize: Size.zero,
